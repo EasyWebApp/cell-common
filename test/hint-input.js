@@ -1,11 +1,15 @@
-const puppeteer = require('puppeteer');
+import TestUtility from '../build/test-utility';
 
-(async () => {
-    const browser = await puppeteer.launch({headless: false,slowMo: 250});
-    const page = await browser.newPage();
-    await page.goto('http://localhost:3000/');
+var page;
 
-    await page.screenshot({path: 'example.png'});
-    await page.evaluate(() => console.log(myList));
-    await browser.close();
-})();
+
+describe('hint-input',  () => {
+
+    before(async ()  =>  page = await TestUtility.getPage());
+
+    it(
+        'Loading',
+        ()  =>  page.$eval('hint-input',  input => input.shadowRoot.nodeType)
+            .should.be.fulfilledWith( 11 )
+    );
+});

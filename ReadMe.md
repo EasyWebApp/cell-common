@@ -6,4 +6,6 @@
 
 ## Component
 
- 1. [month-picker](https://boot-cell.leanapp.cn/)
+ 1. [hint-input](source/hint-input/)
+
+ 2. [month-picker](https://boot-cell.leanapp.cn/)

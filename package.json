@@ -1,14 +1,18 @@
 {
   "name": "boot-cell",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Web components library based on WebCell engine & BootStrap v4",
   "main": "index.js",
   "engines": {
-    "node": "^7.6.0"
+    "node": "^6.5.0"
   },
   "scripts": {
-    "test": "mocha -r should -c --inline-diffs --exit",
-    "debug": "npm test -- --inspect-brk"
+    "start": "web-server",
+    "lint": "eslint source/ test/",
+    "check": "mocha -r babel-register -r babel-polyfill -r should -c --inline-diffs",
+    "test": "npm run check -- --exit",
+    "debug": "npm run check -- --inspect-brk",
+    "precommit": "npm run lint  &&  npm test"
   },
   "repository": {
     "type": "git",
@@ -26,9 +30,22 @@
   },
   "homepage": "https://github.com/EasyWebApp/BootCell#readme",
   "devDependencies": {
+    "babel-env": "^2.4.1",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "eslint": "^4.19.1",
+    "husky": "^0.14.3",
     "koapache": "^0.2.2",
     "mocha": "^5.2.0",
     "puppeteer": "^1.4.0",
     "should": "^13.2.1"
+  },
+  "dependencies": {
+    "bootstrap": "^4.1.1"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
   }
 }

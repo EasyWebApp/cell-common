@@ -1,138 +1,113 @@
-const t = document.currentScript.previousElementSibling;
+(() => {
 
-class HintInput extends HTMLElement {
-    constructor() {
-        super();
-        this._eventHandler = this._eventHandler.bind(this);
+    const t = document.currentScript.previousElementSibling;
 
-    }
+    customElements.define('hint-input',  class HintInput extends HTMLElement {
 
-    get label() {
-        return this.getAttribute('label');
-    }
-    set label(val) {
-        if (val) {
-            this.setAttribute('label', val);
+        constructor() {
+
+            super().attachShadow({
+                mode:              'open',
+                delegatesFocus:    true
+            }).append(
+                t.content.cloneNode( true )
+            );
         }
-    }
 
-    get placeholder() {
-        return this.getAttribute('placeholder');
-    }
-    set placeholder(val) {
-        if (val) {
-            this.setAttribute('placeholder', val);
+        static get observedAttributes() {
+
+            return  ['label', 'placeholder', 'value'];
         }
-    }
 
-    get src() {
-        return this.getAttribute('src');
-    }
-    set src(val) {
-        if (val) {
-            this.setAttribute('src', val);
+        attributeChangedCallback(name, oldValue, newValue) {
+
+            this[ name ] = newValue;
         }
-    }
 
-    get selectOption() {
-        return this.getAttribute('selectOption');
-    }
+        $(selector) {  return this.shadowRoot.querySelectorAll( selector );  }
 
-    get jsonDes() {
-        return this.getAttribute('jsonDes');
-    }
-    set jsonDes(val) {
-        if (val) {
-            this.setAttribute('jsonDes', val);
+        get type() {  return this.$('input')[0].type;  }
+
+        set type(value) {  this.$('input')[0].type = value;  }
+
+        get label() {  return this.$('label')[0].textContent;  }
+
+        set label(raw) {  this.$('label')[0].textContent = raw;  }
+
+        get placeholder() {  return this.$('input')[0].placeholder;  }
+
+        set placeholder(raw) {  this.$('input')[0].placeholder = raw;  }
+
+        get defaultValue() {  return this.getAttribute('value');  }
+
+        get value() {  return this.$('input')[0].value;  }
+
+        set value(raw) {  this.$('input')[0].value = raw;  }
+
+        get options() {  return this.$('datalist')[0].options;  }
+
+        get list() {  return  Array.from(this.options,  node => node.value);  }
+
+        set list(data) {
+
+            if (! (data instanceof Array))  return;
+
+            const staticData = Array.from(
+                    this.$('slot')[0].assignedNodes(),
+                    node  =>  (node.nodeType === 1)  &&
+                        (node.style.display = 'none')  &&  node.value
+                ),
+                list = this.$('datalist')[0];
+
+            list.innerHTML = '';
+
+            list.append(
+                ... staticData.concat( data ).filter( Boolean )
+                    .map(value  =>  new Option( value ))
+            );
         }
-    }
 
-    getSrcJson(str,jsonKey,parent){
-        fetch(str,{method:'get'})
-            .then(function(response) {
-                try {
-                    return  response.json();
-                } catch (e) {
-                    console.log("返回值应该是一个json对象");
-                }
-            })
-            .then(function(cur) {
-                let obj = cur,
-                    len = jsonKey.length-1;
-                for (let i=1;i<len;i++){
-                    obj = obj[jsonKey[i]];
-                }
-                obj.map((value) => {
-                    parent.append(new Option(value[jsonKey[len]]));
-                })
-            });
-    }
+        get src() {  return this.getAttribute('src');  }
 
-    appendOption(parent,optionValue) {
-        let option = [];
-        optionValue.map((value) => {
-            parent.append(new Option(value));
-        });
-    }
+        set src(val) {
 
-    connectedCallback() {
-        const shadowRoot = this.attachShadow({mode: 'open'});
-        const instance = t.content.cloneNode(true);
-        shadowRoot.appendChild(instance);
-
-        const input = shadowRoot.querySelector('.listInput');
-        const datalist = shadowRoot.querySelector('#data-list');
-        const label2 = shadowRoot.querySelector('label');
-        this.ele = input;
-        this.ele2 =shadowRoot;
-        //使用slot的方法实现下面数据的填充
-        const slot = shadowRoot.querySelector('slot');
-        let optionArr = [];
-        let optionList = slot.assignedNodes();
-        for(let i=1;i<optionList.length;i=i+2){
-            //让slot里面的option节点，display变为none，因为assignedNodes选出来的元素是text和option，这里就简单的以index作为判断的依据了
-            optionList[i].style.display = "none";
-            optionArr[((i-1)/2)] = optionList[i].value;
+            if (val)  this.setAttribute('src', val);
         }
-        this.appendOption(datalist,optionArr);
 
-        //使用src属性获得option的值
+        get jsonDes() {  return this.getAttribute('jsonDes');  }
 
-        let srcAdd = this.getAttribute('src');
-        let jsonDes = this.getAttribute("jsonDes");
-        if(jsonDes&&srcAdd){
-            let jsonKey = jsonDes.split(".");
-            this.getSrcJson(srcAdd,jsonKey,datalist);
+        set jsonDes(val) {
+
+            if (val)  this.setAttribute('jsonDes', val);
         }
-        //修改label标签的值
-        label2.innerText = this.getAttribute('label');
 
-        //修改placeholder的值
-        input.setAttribute('placeholder',this.placeholder);
+        connectedCallback() {
 
-        //修改input的value值为mydatalist的value值
-        input.addEventListener("change",() => {
-            //debugger;
-            //创建一个监听事件
-            this._eventHandler(input.value);
-            const event = new Event('change');
-            event.initEvent('change', true, false);
-            this.ele2.host.dispatchEvent( event );
-        },false);
-    }
-    attributeChangedCallback(selectOption, oldVal, newVal){
-        console.log(this.selectOption);
-    }
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        //修改input的value值为mydatalist的value值
-        this.ele.addEventListener("change",() => {
-            this._eventHandler(input.value)},false);
-    }
-    _eventHandler(val){
-        this.setAttribute('selectOption', val);
-        // console.log(this.selectOption);
-    }
-}
+            const input = this.$('input')[0];  this.list = [ ];
 
-customElements.define('hint-input', HintInput);
+            input.addEventListener('input',  this.load.bind( this ));
+
+            //  Emit "change" event out of shadow root
+            input.addEventListener('change',  () =>
+                this.shadowRoot.host.dispatchEvent(new Event('change', {
+                    bubbles:     true,
+                    cancelable:  false
+                }))
+            );
+        }
+
+        async load() {
+
+            if (! (this.src && this.jsonDes))  return;
+
+            const response = await fetch(this.src, {method: 'get'}),
+                jsonKey = this.jsonDes.split('.');
+
+            var data = response.json(), len = jsonKey.length - 1;
+
+            for (let i = 1;  i < len;  i++)  data = data[ jsonKey[i] ];
+
+            this.list = data.map(value  =>  value[ jsonKey[len] ]);
+        }
+    });
+})();

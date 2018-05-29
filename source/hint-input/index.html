@@ -1,25 +1,19 @@
-<template id="hint-input">
+<template>
     <style>
-        .wrapper{
-            font-size: 16px;
+        input {
+            outline:      0;
+            font-size:    1rem;
+            padding:      0.25em;
         }
-        input{
-            outline: 0;
-            /*width: 1.2em;*/
-            height: 1.2em;
-            font-size: 16px;
-            /*line-height: 1.4em;*/
-        }
-        input::-webkit-input-placeholder{ /* WebKit browsers */
-            color: rgb(213,213,213);
-            font-size: 16px;
+        input::-webkit-input-placeholder {
+            color:    rgb(213, 213, 213);
         }
     </style>
-    <div class="wrapper">
-        <label></label>
-        <input type="text" list="data-list" class="listInput" placeholder="">
-        <datalist id="data-list"></datalist>
-    </div>
+
+    <label for="hint-input"></label>
+    <input id="hint-input" list="data-list">
+    <datalist id="data-list"></datalist>
+
     <slot></slot>
 </template>
 

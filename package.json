@@ -1,0 +1,33 @@
+{
+  "name": "boot-cell",
+  "version": "0.1.0",
+  "description": "Web components library based on WebCell engine & BootStrap v4",
+  "main": "index.js",
+  "engines": {
+    "node": "^7.6.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EasyWebApp/BootCell.git"
+  },
+  "keywords": [
+    "component",
+    "bootstrap",
+    "web-cell"
+  ],
+  "author": "shiy2008@gmail.com",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/EasyWebApp/BootCell/issues"
+  },
+  "homepage": "https://github.com/EasyWebApp/BootCell#readme",
+  "devDependencies": {
+    "koapache": "^0.2.2",
+    "mocha": "^5.2.0",
+    "puppeteer": "^1.4.0",
+    "should": "^13.2.1"
+  }
+}

@@ -7,7 +7,8 @@
     "node": "^7.6.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r should -c --inline-diffs --exit",
+    "debug": "npm test -- --inspect-brk"
   },
   "repository": {
     "type": "git",

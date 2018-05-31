@@ -7,7 +7,7 @@
     "node": "^6.5.0"
   },
   "scripts": {
-    "start": "web-server",
+    "start": "web-server -o test/",
     "lint": "eslint source/ test/",
     "check": "mocha -r babel-register -r babel-polyfill -r should -c --inline-diffs",
     "test": "npm run check -- --exit",
@@ -35,7 +35,7 @@
     "babel-register": "^6.26.0",
     "eslint": "^4.19.1",
     "husky": "^0.14.3",
-    "koapache": "^0.2.2",
+    "koapache": "^0.2.3",
     "mocha": "^5.2.0",
     "puppeteer": "^1.4.0",
     "should": "^13.2.1"

@@ -94,6 +94,10 @@
                     cancelable:  false
                 }))
             );
+
+            this.shadowRoot.host.addEventListener('focus',  () => {
+                input.click();
+            });
         }
 
         async load() {
@@ -103,7 +107,7 @@
             const response = await fetch(this.src, {method: 'get'}),
                 jsonKey = this.jsonDes.split('.');
 
-            var data = response.json(), len = jsonKey.length - 1;
+            var data = await response.json(), len = jsonKey.length - 1;
 
             for (let i = 1;  i < len;  i++)  data = data[ jsonKey[i] ];
 

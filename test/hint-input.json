@@ -1,0 +1,25 @@
+{"status":"1","info":"OK","infocode":"10000","count":"1","suggestion":{"keywords":[],"cities":[]},"districts":
+  {"citycode":[],"adcode":"510000","name":"四川省","center":"104.065735,30.659462","level":"province","districts":[
+    {"citycode":"0839","adcode":"510800","name":"广元市","center":"105.829757,32.433668","level":"city","districts":[]},
+    {"citycode":"0817","adcode":"511300","name":"南充市","center":"106.082974,30.795281","level":"city","districts":[]},
+    {"citycode":"0838","adcode":"510600","name":"德阳市","center":"104.398651,31.127991","level":"city","districts":[]},
+    {"citycode":"0827","adcode":"511900","name":"巴中市","center":"106.753669,31.858809","level":"city","districts":[]},
+    {"citycode":"0826","adcode":"511600","name":"广安市","center":"106.633369,30.456398","level":"city","districts":[]},
+    {"citycode":"028","adcode":"510100","name":"成都市","center":"104.065735,30.659462","level":"city","districts":[]},
+    {"citycode":"0816","adcode":"510700","name":"绵阳市","center":"104.741722,31.46402","level":"city","districts":[]},
+    {"citycode":"0818","adcode":"511700","name":"达州市","center":"107.502262,31.209484","level":"city","districts":[]},
+    {"citycode":"1833","adcode":"511400","name":"眉山市","center":"103.831788,30.048318","level":"city","districts":[]},
+    {"citycode":"0825","adcode":"510900","name":"遂宁市","center":"105.571331,30.513311","level":"city","districts":[]},
+    {"citycode":"0832","adcode":"512000","name":"资阳市","center":"104.641917,30.122211","level":"city","districts":[]},
+    {"citycode":"1832","adcode":"511000","name":"内江市","center":"105.066138,29.58708","level":"city","districts":[]},
+    {"citycode":"0813","adcode":"510300","name":"自贡市","center":"104.773447,29.352765","level":"city","districts":[]},
+    {"citycode":"0833","adcode":"511100","name":"乐山市","center":"103.761263,29.582024","level":"city","districts":[]},
+    {"citycode":"0830","adcode":"510500","name":"泸州市","center":"105.443348,28.889138","level":"city","districts":[]},
+    {"citycode":"0834","adcode":"513400","name":"凉山彝族自治州","center":"102.258746,27.886762","level":"city","districts":[]},
+    {"citycode":"0831","adcode":"511500","name":"宜宾市","center":"104.630825,28.760189","level":"city","districts":[]},
+    {"citycode":"0812","adcode":"510400","name":"攀枝花市","center":"101.716007,26.580446","level":"city","districts":[]},
+    {"citycode":"0837","adcode":"513200","name":"阿坝藏族羌族自治州","center":"102.221374,31.899792","level":"city","districts":[]},
+    {"citycode":"0836","adcode":"513300","name":"甘孜藏族自治州","center":"101.963815,30.050663","level":"city","districts":[]},
+    {"citycode":"0835","adcode":"511800","name":"雅安市","center":"103.001033,29.987722","level":"city","districts":[]}
+  ]}
+}

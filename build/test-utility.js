@@ -16,7 +16,6 @@ export default  class TestUtility {
 
         return  browser || (
             browser = await Puppeteer.launch({
-                // slowMo: 250,
                 headless:
                     (! process.env.npm_lifecycle_script.includes('--inspect'))
             })

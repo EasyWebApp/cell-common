@@ -1,81 +1,131 @@
 import TestUtility from '../build/test-utility';
 
 var page;
-var fs = require('fs');
 
 
 describe('hint-input',  () => {
 
     before(async ()  =>  page = await TestUtility.getPage());
 
-    it('Constructor', async () => {
-        (await  page.$eval('hint-input', input => input.shadowRoot.nodeType )).should.be.equal( 11 );
-        //
-    });
-    it('observedAttributes', async () => {
-        (await   page.$eval('hint-input', ((input) => [input.label,input.placeholder,input.value]))).should.be.eql(
-            ['Selector','selector','']);
-    });
-    it('Attribute',async () =>{
-        (await (page.$eval('hint-input', input => input.type))).should.be.eql('text');
 
-        (await (page.$eval('hint-input', input => input.src))).should.be.eql('./hint-input.json');
+    it('Constructor',  async () => {
 
-        (await (page.$eval('hint-input', input => input.jsonDes))).should.be.eql('json.districts.districts.name');
+        (await page.$eval('hint-input',  input => input.shadowRoot.nodeType))
+            .should.be.equal( 11 );
 
-        (await (page.$eval('hint-input', input => {
-            return Array.from(input.options).map( (x) => x.value );
-        }))).should.be.eql(['xxx','mmm','kkk','zzz']);
-
-        (await (page.$eval('hint-input', input => input.list))).should.be.eql(['xxx','mmm','kkk','zzz']);
-
-        (await (page.$eval('hint-input', (input) => {
-            input.label = 'email';
-            return input.label;
-        }))).should.be.eql('email');
-
-        (await (page.$eval('hint-input', (input) => {
-            input.label = 'labelTest';
-            return input.label;
-        }))).should.be.eql('labelTest');
-
-        (await (page.$eval('hint-input', (input) => {
-            input.placeholder = 'placeholderTest';
-            return input.placeholder;
-        }))).should.be.eql('placeholderTest');
-
-        (await (page.$eval('hint-input', (input) => {
-            return Array.from(input.children).map((x) => x.value);
-        }))).should.be.eql(['xxx','mmm','kkk','zzz']);
+        (await page.$eval('hint-input',  input => Array.from(
+            input.shadowRoot.children,  child => child.tagName.toLowerCase()
+        ))).should.be.eql([
+            'style', 'label', 'input', 'datalist', 'slot'
+        ]);
     });
 
-    //这里的测试是通过监听value的值是否正确来判断时间触发是否正确的。
-    it('eventChange', async () => {
+    it(
+        'Observe attributes',
+        () => page.$eval(
+            'hint-input',  input => [input.label, input.placeholder, input.value]
+        ).should.be.fulfilledWith([
+            'Selector', 'selector', ''
+        ])
+    );
+
+    it(
+        'Attribute & Property',
+        () => page.$eval(
+            'hint-input',  input => [input.type, input.src, input.jsonDes]
+        ).should.be.fulfilledWith([
+            'text', './hint-input.json', 'json.districts.districts.name'
+        ])
+    );
+
+    it('Slot options',  async () => {
+
+        (await (page.$eval('hint-input',  input =>
+            Array.from(
+                input.options,  node => node.nodeType
+            ).filter(
+                type  =>  (type === 1)
+            )
+        ))).should.be.eql([1, 1, 1, 1]);
+
+        (await (page.$eval('hint-input',  input => input.list))).should.be.eql([
+            'xxx', 'mmm', 'kkk', 'zzz'
+        ]);
+    });
+
+
+    it('Change properties',  () => {
+
+        const property = {
+            type:         'email',
+            label:        'Email',
+            placeholder:  'test@example.com'
+        };
+
+        return (page.$eval(
+            'hint-input',
+            (input, data)  =>  Object.assign(input, data)  &&  {
+                type:         input.type,
+                label:        input.label,
+                placeholder:  input.placeholder
+            },
+            property
+        )).should.be.fulfilledWith( property );
+    });
+
+
+    it('Change event',  async () => {
+
+        const change = new Promise(resolve  =>  {
+
+            page.on('console',  message => {
+
+                if (message.type() === 'info')  resolve( message.text() );
+            });
+        });
+
+        await page.$eval('hint-input',  input =>
+            input.onchange = event => console.info( event.target.tagName )
+        );
+
         await page.click('hint-input');
 
         await page.keyboard.type('x');
 
+        (await page.$eval(
+            'hint-input',  input => input.value
+        )).should.be.equal('x');
+
         await page.click('body');
 
-        (await  page.$eval('hint-input', ((input) => {
-            return input.value;
-        }))).should.be.eql('x');
+        (await change).should.be.eql('HINT-INPUT');
     });
 
-    //测试load函数
-    it('load', async () => {
-        let jsonFile = JSON.parse( (await(fs.readFileSync('test/hint-input.json'))) );
 
-        let arr = await jsonFile['districts']['districts'].map(x => x.name);
+    it('Load data',  async () => {
+
+        const list = require('./hint-input.json').districts.districts.map(
+            item => item.name
+        );
 
         await page.click('hint-input');
 
         await page.keyboard.type('x');
 
-        await page.click('body');
+        (await page.$eval(
+            'hint-input',  input => input.list
+        )).should.be.eql(
+            ['xxx', 'mmm', 'kkk', 'zzz'].concat( list )
+        );
+    });
 
-        (await  page.$eval('hint-input', ((input) => {
-            return input.list;
-        }))).should.be.eql(['xxx','mmm','kkk','zzz'].concat(arr));
+
+    it('Change slot',  async () => {
+
+        await page.$eval('hint-input',  input => input.append(new Option('yyy')));
+
+        (await page.$eval('hint-input',  input => input.list)).should.be.eql([
+            'xxx', 'mmm', 'kkk', 'zzz', 'yyy'
+        ]);
     });
 });

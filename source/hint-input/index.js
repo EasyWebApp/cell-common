@@ -16,7 +16,7 @@
 
         static get observedAttributes() {
 
-            return  ['label', 'placeholder', 'value'];
+            return  ['type', 'label', 'placeholder', 'value'];
         }
 
         attributeChangedCallback(name, oldValue, newValue) {
@@ -83,7 +83,11 @@
 
         connectedCallback() {
 
-            const input = this.$('input')[0];  this.list = [ ];
+            this.list = [ ];
+
+            this.$('slot')[0].addEventListener('slotchange',  () => this.list = [ ]);
+
+            const input = this.$('input')[0];
 
             input.addEventListener('input',  this.load.bind( this ));
 
@@ -95,9 +99,7 @@
                 }))
             );
 
-            this.shadowRoot.host.addEventListener('focus',  () => {
-                input.click();
-            });
+            this.shadowRoot.host.addEventListener('focus',  () => input.click());
         }
 
         async load() {

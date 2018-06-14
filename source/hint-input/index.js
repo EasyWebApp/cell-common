@@ -1,119 +1,105 @@
-(() => {
+import {component} from 'web-cell';
 
-    const t = document.currentScript.previousElementSibling;
 
-    customElements.define('hint-input',  class HintInput extends HTMLElement {
+export default  class HintInput extends HTMLElement {
 
-        constructor() {
+    constructor() {  super().buildDOM().view.list = [ ];  }
 
-            super().attachShadow({
-                mode:              'open',
-                delegatesFocus:    true
-            }).append(
-                t.content.cloneNode( true )
-            );
-        }
+    static get observedAttributes() {
 
-        static get observedAttributes() {
+        return  ['type', 'label', 'placeholder', 'value'];
+    }
 
-            return  ['type', 'label', 'placeholder', 'value'];
-        }
+    attributeChangedCallback(name, oldValue, newValue) {
 
-        attributeChangedCallback(name, oldValue, newValue) {
+        this[ name ] = newValue;
+    }
 
-            this[ name ] = newValue;
-        }
+    get type() {  return this.$('input')[0].type;  }
 
-        $(selector) {  return this.shadowRoot.querySelectorAll( selector );  }
+    set type(value) {  this.view.type = value;  }
 
-        get type() {  return this.$('input')[0].type;  }
+    get label() {  return this.view.label;  }
 
-        set type(value) {  this.$('input')[0].type = value;  }
+    set label(raw) {  this.view.label = raw;  }
 
-        get label() {  return this.$('label')[0].textContent;  }
+    get placeholder() {  return this.view.placeholder;  }
 
-        set label(raw) {  this.$('label')[0].textContent = raw;  }
+    set placeholder(raw) {  this.view.placeholder = raw;  }
 
-        get placeholder() {  return this.$('input')[0].placeholder;  }
+    get defaultValue() {  return this.getAttribute('value');  }
 
-        set placeholder(raw) {  this.$('input')[0].placeholder = raw;  }
+    get value() {  return this.$('input')[0].value;  }
 
-        get defaultValue() {  return this.getAttribute('value');  }
+    set value(raw) {  this.view.value = raw;  }
 
-        get value() {  return this.$('input')[0].value;  }
+    get options() {  return this.$('datalist')[0].options;  }
 
-        set value(raw) {  this.$('input')[0].value = raw;  }
+    get list() {  return  Array.from(this.options,  node => node.value);  }
 
-        get options() {  return this.$('datalist')[0].options;  }
+    set list(data) {
 
-        get list() {  return  Array.from(this.options,  node => node.value);  }
+        if (! (data instanceof Array))  return;
 
-        set list(data) {
+        const staticData = Array.from(
+            this.$('slot')[0].assignedNodes(),
+            node  =>  (node.nodeType === 1)  &&
+                (node.style.display = 'none')  &&  node.value
+        );
 
-            if (! (data instanceof Array))  return;
+        this.view.list.clear().render(
+            staticData.concat( data ).filter( Boolean ).map(value => ({ value }))
+        );
+    }
 
-            const staticData = Array.from(
-                    this.$('slot')[0].assignedNodes(),
-                    node  =>  (node.nodeType === 1)  &&
-                        (node.style.display = 'none')  &&  node.value
-                ),
-                list = this.$('datalist')[0];
+    get src() {  return this.getAttribute('src');  }
 
-            list.innerHTML = '';
+    set src(val) {
 
-            list.append(
-                ... staticData.concat( data ).filter( Boolean )
-                    .map(value  =>  new Option( value ))
-            );
-        }
+        if (val)  this.setAttribute('src', val);
+    }
 
-        get src() {  return this.getAttribute('src');  }
+    get jsonDes() {  return this.getAttribute('jsonDes');  }
 
-        set src(val) {
+    set jsonDes(val) {
 
-            if (val)  this.setAttribute('src', val);
-        }
+        if (val)  this.setAttribute('jsonDes', val);
+    }
 
-        get jsonDes() {  return this.getAttribute('jsonDes');  }
+    connectedCallback() {
 
-        set jsonDes(val) {
+        this.list = [ ];
 
-            if (val)  this.setAttribute('jsonDes', val);
-        }
+        this.$('slot')[0].addEventListener('slotchange',  () => this.list = [ ]);
 
-        connectedCallback() {
+        const input = this.$('input')[0];
 
-            this.list = [ ];
+        input.addEventListener('input',  this.load.bind( this ));
 
-            this.$('slot')[0].addEventListener('slotchange',  () => this.list = [ ]);
+        //  Emit "change" event out of shadow root
+        input.addEventListener('change',  () =>
+            this.shadowRoot.host.dispatchEvent(new Event('change', {
+                bubbles:     true,
+                cancelable:  false
+            }))
+        );
 
-            const input = this.$('input')[0];
+        this.shadowRoot.host.addEventListener('focus',  () => input.click());
+    }
 
-            input.addEventListener('input',  this.load.bind( this ));
+    async load() {
 
-            //  Emit "change" event out of shadow root
-            input.addEventListener('change',  () =>
-                this.shadowRoot.host.dispatchEvent(new Event('change', {
-                    bubbles:     true,
-                    cancelable:  false
-                }))
-            );
+        if (! (this.src && this.jsonDes))  return;
 
-            this.shadowRoot.host.addEventListener('focus',  () => input.click());
-        }
+        const response = await fetch(this.src, {method: 'get'}),
+            jsonKey = this.jsonDes.split('.');
 
-        async load() {
+        var data = await response.json(), len = jsonKey.length - 1;
 
-            if (! (this.src && this.jsonDes))  return;
+        for (let i = 1;  i < len;  i++)  data = data[ jsonKey[i] ];
 
-            const response = await fetch(this.src, {method: 'get'}),
-                jsonKey = this.jsonDes.split('.');
+        this.list = data.map(value  =>  value[ jsonKey[len] ]);
+    }
+}
 
-            var data = await response.json(), len = jsonKey.length - 1;
-
-            for (let i = 1;  i < len;  i++)  data = data[ jsonKey[i] ];
-
-            this.list = data.map(value  =>  value[ jsonKey[len] ]);
-        }
-    });
-})();
+component( HintInput );

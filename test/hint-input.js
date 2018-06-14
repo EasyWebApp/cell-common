@@ -1,11 +1,11 @@
-import TestUtility from '../build/test-utility';
+import PuppeteerBrowser from 'puppeteer-browser';
 
 var page;
 
 
 describe('hint-input',  () => {
 
-    before(async ()  =>  page = await TestUtility.getPage());
+    before(async ()  =>  page = await PuppeteerBrowser.getPage('.', 'test/'));
 
 
     it('Constructor',  async () => {

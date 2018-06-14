@@ -9,3 +9,9 @@
  1. [hint-input](source/hint-input/)
 
  2. [month-picker](https://boot-cell.leanapp.cn/)
+
+
+
+## Usage
+
+[Example](test/index.html)

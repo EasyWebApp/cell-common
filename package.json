@@ -1,15 +1,20 @@
 {
   "name": "boot-cell",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Web components library based on WebCell engine & BootStrap v4",
   "main": "index.js",
+  "directories": {
+    "lib": "source",
+    "test": "test"
+  },
   "engines": {
     "node": "^6.5.0"
   },
   "scripts": {
-    "start": "web-server -o test/",
+    "build": "web-cell pack",
+    "start": "web-cell preview",
     "lint": "eslint source/ test/",
-    "check": "mocha -r babel-register -r babel-polyfill -r should -c --inline-diffs",
+    "check": "mocha -r babel-register -r should --no-timeouts -c --inline-diffs",
     "test": "npm run check -- --exit",
     "debug": "npm run check -- --inspect-brk",
     "precommit": "npm run lint  &&  npm test"
@@ -35,13 +40,14 @@
     "babel-register": "^6.26.0",
     "eslint": "^4.19.1",
     "husky": "^0.14.3",
-    "koapache": "^0.2.3",
     "mocha": "^5.2.0",
-    "puppeteer": "^1.4.0",
-    "should": "^13.2.1"
+    "puppeteer-browser": "^0.2.1",
+    "should": "^13.2.1",
+    "web-cell-cli": "^0.2.0"
   },
   "dependencies": {
-    "bootstrap": "^4.1.1"
+    "bootstrap": "^4.1.1",
+    "web-cell": "^0.9.1"
   },
   "babel": {
     "presets": [

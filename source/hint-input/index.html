@@ -10,9 +10,12 @@
         }
     </style>
 
-    <label for="hint-input"></label>
-    <input id="hint-input" list="data-list">
-    <datalist id="data-list"></datalist>
+    <label for="hint-input">${view.label}</label>
+    <input type="${view.type}" id="hint-input" list="data-list"
+        value="${view.value}" placeholder="${view.placeholder}">
+    <datalist id="data-list" data-array="list">
+        <option value="${view.value}">
+    </datalist>
 
     <slot></slot>
 </template>

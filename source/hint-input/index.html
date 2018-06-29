@@ -11,13 +11,15 @@
     </style>
 
     <label for="hint-input">${view.label}</label>
+
     <input type="${view.type}" id="hint-input" list="data-list"
-        value="${view.value}" placeholder="${view.placeholder}">
+        value="${view.value}" placeholder="${view.placeholder}"
+        oninput="${host.load.bind( host )}"
+        onchange="${host.bubbleOut.bind( host )}">
+
     <datalist id="data-list" data-array="list">
         <option value="${view.value}">
     </datalist>
 
     <slot></slot>
 </template>
-
-<script src="index.js"></script>

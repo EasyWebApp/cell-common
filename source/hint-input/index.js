@@ -1,9 +1,12 @@
 import {component} from 'web-cell';
 
+import HTML from './index.html';
 
-export default  class HintInput extends HTMLElement {
 
-    constructor() {  super().buildDOM().view.list = [ ];  }
+
+export default  component(class HintInput extends HTMLElement {
+
+    constructor() {  super().buildDOM( HTML ).view.list = [ ];  }
 
     static get observedAttributes() {
 
@@ -70,21 +73,11 @@ export default  class HintInput extends HTMLElement {
 
         this.list = [ ];
 
-        this.$('slot')[0].addEventListener('slotchange',  () => this.list = [ ]);
+        this.on.call(this.$('slot')[0],  'slotchange',  () => this.list = [ ]);
 
         const input = this.$('input')[0];
 
-        input.addEventListener('input',  this.load.bind( this ));
-
-        //  Emit "change" event out of shadow root
-        input.addEventListener('change',  () =>
-            this.shadowRoot.host.dispatchEvent(new Event('change', {
-                bubbles:     true,
-                cancelable:  false
-            }))
-        );
-
-        this.shadowRoot.host.addEventListener('focus',  () => input.click());
+        this.on('focus',  () => input.click());
     }
 
     async load() {
@@ -100,6 +93,4 @@ export default  class HintInput extends HTMLElement {
 
         this.list = data.map(value  =>  value[ jsonKey[len] ]);
     }
-}
-
-component( HintInput );
+});

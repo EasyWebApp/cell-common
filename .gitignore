@@ -61,3 +61,6 @@ typings/
 # Editor & IDE configuration
 .vscode/
 .idea/
+
+# Package built
+dist/

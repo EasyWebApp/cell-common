@@ -1,24 +1,29 @@
 <template>
     <style>
         input {
-            outline:      0;
-            font-size:    1rem;
-            padding:      0.25em;
+            outline: 0;
+            font-size: 1rem;
+            padding: 0.25em;
         }
         input::-webkit-input-placeholder {
-            color:    rgb(213, 213, 213);
+            color: rgb(213, 213, 213);
         }
     </style>
 
     <label for="hint-input">${view.label}</label>
 
-    <input type="${view.type}" id="hint-input" list="data-list"
-        value="${view.value}" placeholder="${view.placeholder}"
-        oninput="${host.load.bind( host )}"
-        onchange="${host.bubbleOut.bind( host )}">
+    <input
+        type="${view.type}"
+        id="hint-input"
+        list="data-list"
+        placeholder="${view.placeholder}"
+        onchange="${host.trigger.bind( host )}"
+    />
 
-    <datalist id="data-list" data-array="list">
-        <option value="${view.value}">
+    <datalist id="data-list" data-view="list">
+        <template>
+            <option value="${view.value}"> </option
+        ></template>
     </datalist>
 
     <slot></slot>

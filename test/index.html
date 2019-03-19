@@ -1,25 +1,31 @@
-<!DocType HTML>
+<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
+    <head>
+        <meta charset="UTF-8" />
 
-    <title>Demo</title>
+        <title>Demo</title>
 
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <script src="../node_modules/@babel/polyfill/dist/polyfill.min.js"></script>
+        <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+        <script src="../node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-    <script src="../node_modules/babel-polyfill/dist/polyfill.min.js"></script>
-    <script src="https://cdn.bootcss.com/webcomponentsjs/1.2.0/webcomponents-lite.js"></script>
-    <script src="https://cdn.bootcss.com/webcomponentsjs/1.2.0/custom-elements-es5-adapter.js"></script>
-    <script src="../node_modules/web-cell/dist/web-cell.js"></script>
+        <script src="../node_modules/dom-renderer/dist/dom-renderer.min.js"></script>
+        <script src="../node_modules/web-cell/dist/web-cell.min.js"></script>
 
-    <script src="../dist/hint-input.js"></script>
-</head>
-<body>
-    <hint-input label="Selector" id="test4" placeholder = "selector" src="./hint-input.json" jsonDes="json.districts.districts.name">
-        <option value="xxx"></option>
-        <option value="mmm"></option>
-        <option value="kkk"></option>
-        <option value="zzz"></option>
-    </hint-input>
-</body>
+        <script src="../dist/hint-input.js"></script>
+    </head>
+    <body>
+        <hint-input
+            label="Selector"
+            id="test4"
+            placeholder="selector"
+            src="./hint-input.json"
+            jsonDes="json.districts.districts.name"
+        >
+            <option value="xxx"></option>
+            <option value="mmm"></option>
+            <option value="kkk"></option>
+            <option value="zzz"></option>
+        </hint-input>
+    </body>
 </html>

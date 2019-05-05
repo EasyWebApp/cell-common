@@ -1,0 +1,23 @@
+<template>
+    <style>
+        ::slotted([contenteditable]) {
+            position: relative;
+            min-height: 1rem;
+            padding-right: 1.5rem;
+        }
+        ::slotted([contenteditable])::after {
+            content: attr(data-count);
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            font-size: small;
+            color: gray;
+        }
+
+        ::slotted(textarea) {
+            display: none;
+        }
+    </style>
+
+    <slot></slot>
+</template>

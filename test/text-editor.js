@@ -24,7 +24,7 @@ describe('text-editor', () => {
             input => input.value
         );
 
-        HTML.should.be.equal('<h1>Test</h1><div>example</div>');
+        HTML.replace(/[\r\n]+/g, '\n').should.be.equal('# Test\nexample');
     });
 
     /**

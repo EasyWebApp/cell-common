@@ -1,7 +1,7 @@
 {
     "name": "cell-common",
     "version": "0.5.0",
-    "description": "Common Web components based on WebCell framework",
+    "description": "Common Web Components library based on WebCell engine",
     "keywords": [
         "component",
         "common",
@@ -12,10 +12,10 @@
     "homepage": "https://web-cell.tk/cell-common/",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/EasyWebApp/BootCell.git"
+        "url": "git+https://github.com/EasyWebApp/cell-common.git"
     },
     "bugs": {
-        "url": "https://github.com/EasyWebApp/BootCell/issues"
+        "url": "https://github.com/EasyWebApp/cell-common/issues"
     },
     "module": "dist/index.js",
     "directories": {
@@ -28,7 +28,8 @@
         "lint": "eslint source/ test/ --fix",
         "build": "npm run format  &&  npm run lint  &&  web-cell pack",
         "test": "npm run build  &&  mocha --exit",
-        "debug": "npm run build  &&  mocha --inspect-brk"
+        "debug": "npm run build  &&  mocha --inspect-brk",
+        "prepublishOnly": "npm test"
     },
     "husky": {
         "hooks": {
@@ -37,10 +38,13 @@
     },
     "dependencies": {
         "dom-renderer": "^0.9.0",
-        "web-cell": "^1.0.0"
+        "web-cell": "^1.1.0"
     },
     "peerDependencies": {
-        "markdown-ime": "^1.0.3"
+        "markdown-ime": "^1.0.3",
+        "marked": "^0.6.2",
+        "turndown": "^5.0.3",
+        "turndown-plugin-gfm": "^1.0.2"
     },
     "devDependencies": {
         "@babel/plugin-proposal-decorators": "^7.4.4",
@@ -49,13 +53,17 @@
         "@babel/register": "^7.4.4",
         "@webcomponents/webcomponentsjs": "^2.2.10",
         "babel-eslint": "^10.0.1",
+        "bootstrap": "4.2.1",
         "eslint": "^5.16.0",
-        "husky": "^2.1.0",
+        "husky": "^2.2.0",
         "markdown-ime": "^1.0.3",
+        "marked": "^0.6.2",
         "mocha": "^6.1.4",
         "prettier": "^1.17.0",
         "puppeteer-browser": "^0.3.8",
         "should": "^13.2.3",
+        "turndown": "^5.0.3",
+        "turndown-plugin-gfm": "^1.0.2",
         "web-cell-cli": "^1.0.0-beta"
     },
     "babel": {

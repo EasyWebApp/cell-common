@@ -1,6 +1,6 @@
-# BootCell
+# Cell Common
 
-[Web components](https://www.webcomponents.org/) library based on [WebCell](https://web-cell.tk/) engine & [BootStrap v4](https://getbootstrap.com/)
+Common [Web Components][1] library based on [WebCell][2] engine
 
 ## Component
 
@@ -8,6 +8,11 @@
 
 2.  [month-picker](https://boot-cell.leanapp.cn/)
 
+3.  [text-editor](source/text-editor/)
+
 ## Usage
 
 [Example](test/index.html)
+
+[1]: https://www.webcomponents.org/
+[2]: https://web-cell.tk/

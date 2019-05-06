@@ -4,11 +4,19 @@ import { component, on, debounce } from 'web-cell';
 
 import template from './index.html';
 
+import marked from 'marked';
+
+import { HTML2MD } from './utility';
+
 const editor = Symbol('Inner editor'),
     store = Symbol('Editor store');
 
 @component({ template })
 export default class TextEditor extends HTMLElement {
+    static get data() {
+        return { count: 0 };
+    }
+
     constructor() {
         super().construct();
     }
@@ -16,7 +24,7 @@ export default class TextEditor extends HTMLElement {
     connectedCallback() {
         this[editor] = document.createElement('div');
 
-        (this[editor].contentEditable = true), (this[editor].dataset.count = 0);
+        this[editor].contentEditable = true;
 
         this.append(this[editor]);
 
@@ -27,12 +35,16 @@ export default class TextEditor extends HTMLElement {
         this[store] = this.$slot('textarea')[0];
     }
 
+    static get HTML2MD() {
+        return HTML2MD;
+    }
+
     get value() {
-        return this[editor].innerHTML.trim();
+        return HTML2MD.turndown(this[editor].innerHTML.trim());
     }
 
     set value(raw) {
-        raw = this[editor].innerHTML = raw.trim();
+        raw = this[editor].innerHTML = marked(raw.trim());
 
         if (this[store]) this[store].value = raw;
     }
@@ -42,7 +54,7 @@ export default class TextEditor extends HTMLElement {
     onInput() {
         const { value } = this;
 
-        this[editor].dataset.count = value.length;
+        this.view.count = value.length;
 
         if (this[store]) this[store].value = value;
     }

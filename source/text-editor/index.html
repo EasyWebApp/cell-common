@@ -1,23 +1,44 @@
 <template>
-    <style>
-        ::slotted([contenteditable]) {
-            position: relative;
+    <style type="text/less">
+        @import (less, reference)
+            "node_modules/bootstrap/dist/css/bootstrap.css";
+
+        :host {
+            outline: none;
+        }
+        ::slotted([contenteditable]):extend(.form-control) {
             min-height: 1rem;
             padding-right: 1.5rem;
+            height: auto;
         }
-        ::slotted([contenteditable])::after {
-            content: attr(data-count);
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            font-size: small;
-            color: gray;
-        }
-
         ::slotted(textarea) {
             display: none;
         }
+
+        nav:extend(.form-group) {
+        }
+        nav > *:extend(.btn, .btn-light) {
+        }
+        nav > a:extend(.btn-link) {
+            text-decoration: none;
+            outline: none;
+        }
+        nav > a:hover:extend(.btn:hover) {
+        }
     </style>
+
+    <nav>
+        <a target="_blank" href="https://laobubu.net/MarkdownIME/?ncr#Features">
+            MarkDown syntax
+        </a>
+        <a
+            target="_blank"
+            href="https://github.com/laobubu/MarkdownIME#supported-shorkeys"
+        >
+            Shortcut keys
+        </a>
+        <span>${view.count} character${view.count > 1 ? 's' : ''}</span>
+    </nav>
 
     <slot></slot>
 </template>

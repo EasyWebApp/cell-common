@@ -1,6 +1,7 @@
 --require @babel/register
 --require @babel/polyfill
 --require should
---timeout 5000
+--require dom-renderer/dist/polyfill
+--timeout 6000
 --colors
 --inline-diffs

@@ -1,7 +1,5 @@
 import PuppeteerBrowser from 'puppeteer-browser';
 
-import 'dom-renderer/dist/polyfill';
-
 import { delay } from 'dom-renderer';
 
 var page;

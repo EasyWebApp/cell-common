@@ -1,6 +1,6 @@
 {
     "name": "cell-common",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "description": "Common Web Components library based on WebCell engine",
     "keywords": [
         "component",
@@ -23,12 +23,13 @@
         "test": "test/"
     },
     "scripts": {
-        "start": "web-cell preview",
         "format": "prettier --write \"{,!(node_modules|.git|dist|docs)/**/}*.{html,md,css,less,js,json,yml,yaml}\"",
-        "lint": "eslint source/ test/ --fix",
+        "lint": "eslint source/ test/ --ignore-pattern test/dist/ --fix",
         "build": "npm run format  &&  npm run lint  &&  web-cell pack",
-        "test": "npm run build  &&  mocha --exit",
-        "debug": "npm run build  &&  mocha --inspect-brk",
+        "pack-test": "cd test/  &&  web-cell pack",
+        "start": "npm run pack-test  &&  web-cell preview",
+        "test": "npm run build  &&  npm run pack-test  &&  mocha --exit",
+        "debug": "npm run format  &&  web-cell pack  &&  npm run pack-test  &&  mocha --inspect-brk --no-timeouts",
         "prepublishOnly": "npm test"
     },
     "husky": {
@@ -37,8 +38,8 @@
         }
     },
     "dependencies": {
-        "dom-renderer": "^0.9.0",
-        "web-cell": "^1.1.0"
+        "dom-renderer": "^1.0.1",
+        "web-cell": "^1.2.0"
     },
     "peerDependencies": {
         "markdown-ime": "^1.0.3",
@@ -49,17 +50,17 @@
     "devDependencies": {
         "@babel/plugin-proposal-decorators": "^7.4.4",
         "@babel/polyfill": "^7.4.4",
-        "@babel/preset-env": "^7.4.4",
+        "@babel/preset-env": "^7.4.5",
         "@babel/register": "^7.4.4",
         "@webcomponents/webcomponentsjs": "^2.2.10",
         "babel-eslint": "^10.0.1",
         "bootstrap": "4.2.1",
         "eslint": "^5.16.0",
-        "husky": "^2.2.0",
+        "husky": "^2.3.0",
         "markdown-ime": "^1.0.3",
         "marked": "^0.6.2",
         "mocha": "^6.1.4",
-        "prettier": "^1.17.0",
+        "prettier": "^1.17.1",
         "puppeteer-browser": "^0.3.8",
         "should": "^13.2.3",
         "turndown": "^5.0.3",

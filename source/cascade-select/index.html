@@ -1,0 +1,31 @@
+<template>
+    <style type="text/less">
+        @import (less, reference)
+            "node_modules/bootstrap/dist/css/bootstrap.css";
+
+        :host {
+            outline: none;
+        }
+        input:extend(.form-control, .form-inline .form-control) {
+            box-sizing: border-box;
+        }
+    </style>
+
+    <main data-view="fields">
+        <template>
+            <label for="input-${view.index}" hidden="${!view.label}">
+                ${view.label}
+            </label>
+            <input
+                type="text"
+                id="input-${view.index}"
+                list="data-${view.index}"
+            />
+            <datalist id="data-${view.index}" data-view="list">
+                <template>
+                    <option value="${view.value}"></option>
+                </template>
+            </datalist>
+        </template>
+    </main>
+</template>

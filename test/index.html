@@ -12,7 +12,9 @@
         <script src="../node_modules/dom-renderer/dist/dom-renderer.min.js"></script>
         <script src="../node_modules/web-cell/dist/web-cell.min.js"></script>
 
-        <script src="../dist/hint-input.js"></script>
+        <script src="../dist/load-cover.js"></script>
+        <script src="../dist/cascade-select.js"></script>
+        <script src="dist/path-select.js"></script>
         <script src="../node_modules/markdown-ime/MarkdownIME.min.js"></script>
         <script src="../node_modules/marked/marked.min.js"></script>
         <script src="../node_modules/turndown/dist/turndown.js"></script>
@@ -20,18 +22,9 @@
         <script src="../dist/text-editor.js"></script>
     </head>
     <body>
-        <hint-input
-            label="Selector"
-            id="test4"
-            placeholder="selector"
-            src="./hint-input.json"
-            jsonDes="json.districts.districts.name"
-        >
-            <option value="xxx"></option>
-            <option value="mmm"></option>
-            <option value="kkk"></option>
-            <option value="zzz"></option>
-        </hint-input>
+        <load-cover></load-cover>
+
+        <path-select></path-select>
 
         <text-editor>
             <textarea></textarea>

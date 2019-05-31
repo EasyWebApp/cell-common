@@ -1,6 +1,6 @@
 {
     "name": "cell-common",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "description": "Common Web Components library based on WebCell engine",
     "keywords": [
         "component",
@@ -25,16 +25,18 @@
     "scripts": {
         "format": "prettier --write \"{,!(node_modules|.git|dist|docs)/**/}*.{html,md,css,less,js,json,yml,yaml}\"",
         "lint": "eslint source/ test/ --ignore-pattern test/dist/ --fix",
-        "build": "npm run format  &&  npm run lint  &&  web-cell pack",
+        "pack": "npm run format  &&  npm run lint  &&  web-cell pack",
         "pack-test": "cd test/  &&  web-cell pack",
         "start": "npm run pack-test  &&  web-cell preview",
-        "test": "npm run build  &&  npm run pack-test  &&  mocha --exit",
+        "test": "npm run pack  &&  npm run pack-test  &&  mocha --exit",
         "debug": "npm run format  &&  web-cell pack  &&  npm run pack-test  &&  mocha --inspect-brk --no-timeouts",
-        "prepublishOnly": "npm test"
+        "build": "npm test  &&  esdoc",
+        "help": "esdoc  &&  open-cli docs/index.html",
+        "prepublishOnly": "npm run build"
     },
     "husky": {
         "hooks": {
-            "pre-commit": "npm test  &&  git add ."
+            "pre-commit": "npm run build  &&  git add ."
         }
     },
     "dependencies": {
@@ -55,36 +57,21 @@
         "@webcomponents/webcomponentsjs": "^2.2.10",
         "babel-eslint": "^10.0.1",
         "bootstrap": "4.2.1",
+        "esdoc": "^1.1.0",
+        "esdoc-ecmascript-proposal-plugin": "^1.0.0",
+        "esdoc-external-webapi-plugin": "^1.0.0",
+        "esdoc-standard-plugin": "^1.0.0",
         "eslint": "^5.16.0",
         "husky": "^2.3.0",
         "markdown-ime": "^1.0.3",
         "marked": "^0.6.2",
         "mocha": "^6.1.4",
+        "open-cli": "^5.0.0",
         "prettier": "^1.17.1",
         "puppeteer-browser": "^0.3.8",
         "should": "^13.2.3",
         "turndown": "^5.0.3",
         "turndown-plugin-gfm": "^1.0.2",
         "web-cell-cli": "^1.0.0-beta"
-    },
-    "babel": {
-        "presets": [
-            [
-                "@babel/preset-env",
-                {
-                    "targets": {
-                        "ie": 11
-                    }
-                }
-            ]
-        ],
-        "plugins": [
-            [
-                "@babel/plugin-proposal-decorators",
-                {
-                    "decoratorsBeforeExport": true
-                }
-            ]
-        ]
     }
 }

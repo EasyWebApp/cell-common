@@ -13,6 +13,9 @@ const editor = Symbol('Inner editor'),
 
 @component({ template })
 export default class TextEditor extends HTMLElement {
+    /**
+     * @type {Object}
+     */
     static get data() {
         return { count: 0 };
     }
@@ -35,14 +38,23 @@ export default class TextEditor extends HTMLElement {
         this[store] = this.$slot('textarea')[0];
     }
 
+    /**
+     * @type {TurndownService}
+     */
     static get HTML2MD() {
         return HTML2MD;
     }
 
+    /**
+     * @type {String}
+     */
     get value() {
         return HTML2MD.turndown(this[editor].innerHTML.trim());
     }
 
+    /**
+     * @param {String} raw
+     */
     set value(raw) {
         raw = this[editor].innerHTML = marked(raw.trim());
 
@@ -59,10 +71,16 @@ export default class TextEditor extends HTMLElement {
         if (this[store]) this[store].value = value;
     }
 
+    /**
+     * @type {HTMLElement[]}
+     */
     get media() {
         return this.$slot('img, audio, video');
     }
 
+    /**
+     * @param {DataTransfer} transfer
+     */
     insertMedia({ files }) {
         if (!files[0]) return;
 

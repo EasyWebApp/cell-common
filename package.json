@@ -45,7 +45,7 @@
     },
     "peerDependencies": {
         "markdown-ime": "^1.0.3",
-        "marked": "^0.6.2",
+        "marked": "^1.1.1",
         "turndown": "^5.0.3",
         "turndown-plugin-gfm": "^1.0.2"
     },
@@ -64,7 +64,7 @@
         "eslint": "^5.16.0",
         "husky": "^2.3.0",
         "markdown-ime": "^1.0.3",
-        "marked": "^0.6.2",
+        "marked": "^1.1.1",
         "mocha": "^6.1.4",
         "open-cli": "^5.0.0",
         "prettier": "^1.17.1",
